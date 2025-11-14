@@ -1,13 +1,24 @@
 const express = require("express");
 const { connectMongoDB } = require("./config/db-config");
 const cookieParser = require("cookie-parser");
-const app = express();
+const cors = require("cors");
 require("dotenv").config();
 
-connectMongoDB();
+const app = express();
+
+// CORS obligatorio
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
+
+connectMongoDB();
+
 app.use("/api/users", require("./routes/users-route"));
 app.use("/api/events", require("./routes/events-route"));
 app.use("/api/payments", require("./routes/payments-route"));

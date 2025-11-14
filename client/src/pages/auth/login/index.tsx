@@ -47,7 +47,7 @@ function LoginPage() {
           </Form.Item>
 
           <Form.Item
-            name="contraseña"
+            name="password"
             required
             label="Contraseña"
             rules={[{ required: true }]}

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const validateToken = require("../middlewares/vatlidate-token");
+const validateToken = require("../middlewares/validate-token");
 const EventModel = require("../models/event-model");
 
 router.post("/create-event", validateToken, async (req, res) => {

@@ -111,12 +111,11 @@ function MenuItems() {
       <div className="flex flex-col gap-10 mt-20">
         {menuToRender.map((item: any) => (
           <div
-            className={`cursor-pointer px-5 py-3 rounded flex gap-5 text-sm items-center ${
-              item.isActive ? "bg-info text-white" : ""
-            }`}
+            className={`cursor-pointer px-5 py-3 rounded flex gap-5 text-sm items-center ${item.isActive ? "bg-info text-white" : ""
+              }`}
             key={item.name}
             onClick={() => {
-              if (item.name === "Logout") {
+              if (item.name === "Cerrar sesión") {
                 onLogout();
               } else {
                 navigate(item.path);

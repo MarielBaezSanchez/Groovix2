@@ -10,6 +10,8 @@ import { useState } from "react";
 import { createBooking } from "../../../../api-services/booking-service";
 import { useNavigate } from "react-router-dom";
 
+
+
 function PaymentModal({
   showPaymentModal,
   setShowPaymentModal,

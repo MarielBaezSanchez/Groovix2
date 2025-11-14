@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const BookingModel = require("../models/booking-model");
 const EventModel = require("../models/event-model");
-const validateToken = require("../middlewares/vatlidate-token");
+const validateToken = require("../middlewares/validate-token");
 
 router.post("/get-admin-reports", validateToken, async (req, res) => {
   try {

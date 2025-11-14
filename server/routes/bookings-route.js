@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const validateToken = require("../middlewares/vatlidate-token");
+const validateToken = require("../middlewares/validate-token");
 const sendEmail = require("../helpers/send-email");
 const BookingModel = require("../models/booking-model");
 const EventModel = require("../models/event-model");

@@ -19,7 +19,7 @@ function ProfilePage() {
 
   return (
     <div>
-      <PageTitle title="Profile" />
+      <PageTitle title="Perfil" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-7">
         {renderUserProperty("User Id", currentUser?._id)}
@@ -37,7 +37,7 @@ function ProfilePage() {
       </div>
 
       <div className="flex justify-end">
-        <Button>Edit Profile</Button>
+        <Button>Editar Perfil</Button>
       </div>
     </div>
   );

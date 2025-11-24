@@ -5,22 +5,32 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig({
   plugins: [
     react(),
+
     VitePWA({
       registerType: "autoUpdate",
 
-      // 🟢 HABILITAR PWA EN DESARROLLO
+      //PWA habilitado en desarrollo y SW legible
       devOptions: {
         enabled: true,
         type: "module",
       },
 
-      includeAssets: ["icon/icon-192x192.png", "icon/icon-512x512.png"],
+      // Archivos que deben quedar fuera del build
+      includeAssets: [
+        "icon/icon-192x192.png",
+        "icon/icon-512x512.png",
+      ],
 
+      //MANIFEST DEL PWA
       manifest: {
         name: "Groovix",
         short_name: "Groovix",
         description: "Groovix como PWA",
+        start_url: "/",
+        display: "standalone",
+        background_color: "#ffffff",
         theme_color: "#ffffff",
+
         icons: [
           {
             src: "/icon/icon-192x192.png",
@@ -35,9 +45,25 @@ export default defineConfig({
         ],
       },
 
-      // 🟣 CACHE DE APIS Y DE IMÁGENES
+      // SERVICE WORKER / CACHE OFFLINE
       workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+
         runtimeCaching: [
+          // Cache de PÁGINAS → permite usar la app sin internet
+          {
+            urlPattern: ({ request }) => request.destination === "document",
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "groovix-pages-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 días
+              },
+            },
+          },
+
+          // Cache de API
           {
             urlPattern: ({ url }) => url.pathname.startsWith("/api"),
             handler: "NetworkFirst",
@@ -53,6 +79,8 @@ export default defineConfig({
               },
             },
           },
+
+          // Cache de imágenes
           {
             urlPattern: ({ request }) => request.destination === "image",
             handler: "CacheFirst",
@@ -60,7 +88,7 @@ export default defineConfig({
               cacheName: "groovix-images-cache",
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 7,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 días
               },
             },
           },
@@ -69,11 +97,16 @@ export default defineConfig({
     }),
   ],
 
+  // CONFIG SERVER
   server: {
     host: true,
     port: 5173,
+
+    // Cambiar esta URL cuando uses backend en Vercel
     proxy: {
       "/api": "http://localhost:5000",
     },
   },
+
+  
 });

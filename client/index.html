@@ -2,10 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/icon-512x512.png" />
+
+    <!-- Favicon general (desktop y navegadores) -->
+    <link rel="icon" type="image/png" href="/icon/icon-512x512.png" />
+
+    <!-- Iconos para iOS -->
+    <link rel="apple-touch-icon-precomposed" href="/icon/icon-192x192.png">
+    <link rel="apple-touch-icon-precomposed" sizes="512x512" href="/icon/icon-512x512.png">
+
+    <!-- Imagen de arranque (pantalla de carga) -->
+    <link rel="apple-touch-startup-image" href="/icon/icon-512x512.png">
+
+    <!-- Permitir modo standalone en iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Safari mobile usa este color para la barra superior -->
+    <meta name="theme-color" content="#ffffff">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Groovix</title>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

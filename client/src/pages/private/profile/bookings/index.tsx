@@ -68,7 +68,7 @@ function UserBookingsPage() {
       key: "ticketType",
     },
     {
-      title: "Cantidad de Boleto",
+      title: "Cantidad de Boletos",
       dataIndex: "ticketsCount",
       key: "ticketsCount",
     },
@@ -84,7 +84,7 @@ function UserBookingsPage() {
       render: (status: string) => status.toUpperCase(),
     },
     {
-      title: "Reservado",
+      title: "Reservado el",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (createdAt: string) => getDateTimeFormat(createdAt),

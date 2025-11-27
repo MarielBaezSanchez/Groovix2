@@ -38,6 +38,11 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
 
+    // check if user is active (not blocked)
+    if (!user.isActive) {
+      return res.status(403).json({ message: "Usuario bloqueado. Contacte al administrador." });
+    }
+
     // validate password
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {

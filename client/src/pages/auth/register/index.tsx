@@ -39,7 +39,9 @@ function RegisterPage() {
             name="name"
             required
             label="Name"
-            rules={[{ required: true }]}
+            //rules={[{ required: true }]}
+            rules={[{ required: true, message: "Por favor ingresa tu nombre" }]}
+
           >
             <Input placeholder="Name" />
           </Form.Item>
@@ -48,7 +50,9 @@ function RegisterPage() {
             name="email"
             required
             label="Email"
-            rules={[{ required: true }]}
+            //rules={[{ required: true }]}
+            rules={[{ required: true, message: "Por favor ingresa tu email" }]}
+
           >
             <Input placeholder="Email" />
           </Form.Item>
@@ -57,7 +61,8 @@ function RegisterPage() {
             name="password"
             required
             label="Contraseña"
-            rules={[{ required: true }]}
+            //rules={[{ required: true }]}
+            rules={[{ required: true, message: "Por favor ingresa tu contraseña" }]}
           >
             <Input.Password placeholder="password" />
           </Form.Item>

@@ -87,14 +87,14 @@ function EventInfoPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-3 bg-gray-100 mt-7 gap-5">
-          {renderEventProperty("Organizer", eventData?.organizer)}
-          {renderEventProperty("Address", eventData?.address)}
-          {renderEventProperty("City", eventData?.city)}
-          {renderEventProperty("Pincode", eventData?.pincode)}
-          {renderEventProperty("Date", getDateFormat(eventData.date))}
-          {renderEventProperty("Time", eventData.time)}
+          {renderEventProperty("Organizador", eventData?.organizer)}
+          {renderEventProperty("Dirección", eventData?.address)}
+          {renderEventProperty("Ciudad", eventData?.city)}
+          {renderEventProperty("Código Postal", eventData?.pincode)}
+          {renderEventProperty("Fecha", getDateFormat(eventData.date))}
+          {renderEventProperty("Hora", eventData.time)}
           <div className="col-span-3">
-            {renderEventProperty("Guests", eventData.guests.join(", "))}
+            {renderEventProperty("Invitados", eventData.guests.join(", "))}
           </div>
         </div>
 

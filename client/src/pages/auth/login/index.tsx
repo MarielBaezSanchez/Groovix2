@@ -41,7 +41,9 @@ function LoginPage() {
             name="email"
             required
             label="Email"
-            rules={[{ required: true }]}
+           // rules={[{ required: true }]}
+            rules={[{ required: true, message: "Por favor ingresa tu email" }]}
+
           >
             <Input placeholder="Email" />
           </Form.Item>
@@ -50,13 +52,15 @@ function LoginPage() {
             name="password"
             required
             label="Contraseña"
-            rules={[{ required: true }]}
+            //rules={[{ required: true }]}
+            rules={[{ required: true, message: "Por favor ingresa tu contraseña" }]}
+
           >
             <Input.Password placeholder="contraseña" />
           </Form.Item>
 
           <Button type="primary" htmlType="submit" block loading={loading}>
-            Login
+            Ingresar
           </Button>
 
           <Link to="/register">¿No tienes una cuenta aun? Regístrate</Link>

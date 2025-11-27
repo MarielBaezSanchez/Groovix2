@@ -52,7 +52,7 @@ function PaymentModal({
       if (result.error) {
         message.error(result.error.message);
       } else {
-        message.success("Pago realizado con éxito");
+        message.success("Pago exitoso");
         const bookingPayload = {
           event: event._id,
           ticketType: selectedTicketType,

@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import PageTitle from "../../../components/page-title";
 import { getDateTimeFormat } from "../../../helpers/date-time-formats";
 import usersGlobalStore, { UsersStoreType } from "../../../store/users-store";
@@ -22,22 +21,18 @@ function ProfilePage() {
       <PageTitle title="Perfil" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-7">
-        {renderUserProperty("User Id", currentUser?._id)}
-        {renderUserProperty("Name", currentUser?.name)}
+        {renderUserProperty("Id de Usuario", currentUser?._id)}
+        {renderUserProperty("Nombre", currentUser?.name)}
         {renderUserProperty("Email", currentUser?.email)}
         {renderUserProperty(
-          "Joined At",
+          "Se  unió el",
           getDateTimeFormat(currentUser.createdAt!)
         )}
         {renderUserProperty(
-          "Status",
-          currentUser?.isActive ? "Active" : "Inactive"
+          "Estado",
+          currentUser?.isActive ? "Activo" : "Inactivo"
         )}
-        {renderUserProperty("Role", currentUser?.isAdmin ? "Admin" : "User")}
-      </div>
-
-      <div className="flex justify-end">
-        <Button>Editar Perfil</Button>
+        {renderUserProperty("Rol", currentUser?.isAdmin ? "Admin" : "Usuario")}
       </div>
     </div>
   );

@@ -15,9 +15,10 @@ function AdminReports() {
     eventId: "",
   });
 
-  const getReports = async () => {
+  const getReports = async (filtersArg?: any) => {
     try {
-      const response = await getAdminReports(filters);
+      const payload = filtersArg || filters;
+      const response = await getAdminReports(payload);
       setReports(response.data);
     } catch (error: any) {
       message.error(error.message);

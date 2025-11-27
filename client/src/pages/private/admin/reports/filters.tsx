@@ -33,7 +33,7 @@ function AdminReportsFilters({
         >
           <Select.Option value="">Todos</Select.Option>
           {events.map((event: any) => (
-            <Select.Option key={event._id} value={event.id}>
+            <Select.Option key={event._id} value={event._id}>
               {event.name}
             </Select.Option>
           ))}
@@ -59,8 +59,22 @@ function AdminReportsFilters({
       </Form.Item>
 
       <div className="flex gap-5">
-        <Button>Limpiar filtros</Button>
-        <Button type="primary" disabled={disableFilterBtn} onClick={onFilter}>
+        <Button
+          onClick={() => {
+            const cleared = { startDate: "", endDate: "", eventId: "" };
+            setFilters(cleared);
+            if (onFilter) onFilter(cleared);
+          }}
+        >
+          Limpiar filtros
+        </Button>
+        <Button
+          type="primary"
+          disabled={disableFilterBtn}
+          onClick={() => {
+            if (onFilter) onFilter(filters);
+          }}
+        >
           Buscar eventos
         </Button>
       </div>

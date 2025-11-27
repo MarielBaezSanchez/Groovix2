@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ThemeProvider from "./theme";
 import LoginPage from "./pages/auth/login";
 import RegisterPage from "./pages/auth/register";
@@ -15,8 +16,27 @@ import AdminBookingsPage from "./pages/private/admin/bookings";
 import UsersPage from "./pages/private/admin/users";
 import AdminReports from "./pages/private/admin/reports";
 import UserReports from "./pages/private/profile/reports/page";
+import OfflinePage from "./pages/offline";
 
 function App() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  if (!isOnline) {
+    return <OfflinePage />;
+  }
   return (
     <ThemeProvider>
       <BrowserRouter>

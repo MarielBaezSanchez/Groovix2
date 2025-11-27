@@ -98,7 +98,7 @@ function UserBookingsPage() {
             <Popconfirm
               title="¿Estás seguro de que deseas cancelar esta reserva?"
               onConfirm={() => onCanceBooking(record)}
-              okText="Yes"
+              okText="Sí"
               cancelText="No"
               placement='leftBottom'
             >

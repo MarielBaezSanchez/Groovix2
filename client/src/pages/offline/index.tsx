@@ -2,6 +2,7 @@ function OfflinePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center px-4">
       <div className="text-center max-w-md">
+        
         {/* Icono de WiFi desconectado */}
         <div className="mb-8">
           <svg
@@ -37,7 +38,9 @@ function OfflinePage() {
         {/* Descripción */}
         <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-6 mb-8 border border-white border-opacity-20">
           <p className="text-sm text-blue-100">
-            Parece que tu conexión a internet se ha interrumpido. Una vez que te reconectes, podrás acceder a todas las funcionalidades de Groovix.
+            Parece que tu conexión a internet se ha interrumpido. 
+            Una vez que te reconectes, podrás acceder a todas las 
+            funcionalidades de Groovix.
           </p>
         </div>
 
@@ -49,12 +52,11 @@ function OfflinePage() {
           Reintentar
         </button>
 
-        {/* Logo o branding */}
+        {/* Branding */}
         <div className="mt-12">
-          <p className="text-blue-200 text-sm">
-            ✨ Groovix
-          </p>
+          <p className="text-blue-200 text-sm">✨ Groovix</p>
         </div>
+
       </div>
     </div>
   );

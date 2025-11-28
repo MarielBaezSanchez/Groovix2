@@ -1,31 +1,32 @@
 import axiosInstance from "../axiosConfig";
 
-// Register
+// REGISTER
 export const registerUser = async (data: any) => {
-  const response = await axiosInstance.post("/api/users/register", data);
+  const response = await axiosInstance.post("/users/register", data);
   return response.data;
 };
 
-// Login
+// LOGIN
 export const loginUser = async (data: any) => {
-  const response = await axiosInstance.post("/api/users/login", data);
+  const response = await axiosInstance.post("/users/login", data);
   return response.data;
 };
 
-// Get current user
+// GET CURRENT USER
 export const getCurrentUser = async () => {
-  const response = await axiosInstance.get("/api/users/current-user");
+  const response = await axiosInstance.get("/users/current-user");
   return response.data;
 };
 
-// Get all users
+// GET ALL USERS
 export const getAllUsers = async () => {
-  const response = await axiosInstance.get("/api/users/get-all-users");
+  const response = await axiosInstance.get("/users/get-all-users");
   return response.data;
 };
 
-// Update user
+// UPDATE USER
 export const updateUserData = async (data: any) => {
-  const response = await axiosInstance.put("/api/users/update-user", data);
+  const response = await axiosInstance.put("/users/update-user", data);
   return response.data;
 };
+

@@ -1,7 +1,8 @@
-import axios from "axios";
+import axiosInstance from "../axiosConfig";
 
+// OBTENER CLIENT SECRET PARA STRIPE
 export const getClientSecret = async (amount: number) => {
-  const response = await axios.post("/api/payments/create-payment-intent", {
+  const response = await axiosInstance.post("/payments/create-payment-intent", {
     amount,
   });
   return response.data;

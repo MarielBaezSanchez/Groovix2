@@ -1,11 +1,13 @@
-import axios from "axios";
+import axiosInstance from "../axiosConfig";
 
+// REPORTES ADMIN
 export const getAdminReports = async (data: any) => {
-  const response = await axios.post("/api/reports/get-admin-reports", data);
+  const response = await axiosInstance.post("/reports/get-admin-reports", data);
   return response.data;
 };
 
+// REPORTES DEL USUARIO
 export const getUserReports = async () => {
-  const response = await axios.get("/api/reports/get-user-reports");
+  const response = await axiosInstance.get("/reports/get-user-reports");
   return response.data;
 };

@@ -31,6 +31,7 @@ function AdminBookingsPage() {
     confirmed: "Confirmado",
     cancelled: "Cancelado",
     completed: "Completado",
+    booked: "Reservado",
     // agrega otros estados si los tienes
   };
 

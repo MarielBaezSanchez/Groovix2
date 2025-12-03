@@ -28,6 +28,16 @@ function UserBookingsPage() {
     getData();
   }, []);
 
+  // Mapa de traducción de estados
+  const statusMap: Record<string, string> = {
+    pending: "Pendiente",
+    confirmed: "Confirmado",
+    cancelled: "Cancelado",
+    completed: "Completado",
+    booked: "Reservado",
+    // agrega otros estados si los tienes
+  };
+
   const onCanceBooking = async (booking: BookingType) => {
     try {
       setLoading(true);
@@ -81,7 +91,10 @@ function UserBookingsPage() {
       title: "Estado",
       dataIndex: "status",
       key: "status",
-      render: (status: string) => status.toUpperCase(),
+      render: (status: string) => {
+        const translated = statusMap[status.toLowerCase()] || status;
+        return translated.charAt(0).toUpperCase() + translated.slice(1).toLowerCase();
+      },
     },
     {
       title: "Reservado el",

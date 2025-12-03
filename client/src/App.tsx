@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// @ts-ignore
 import { useEffect, useState } from "react";
 import ThemeProvider from "./theme";
 import LoginPage from "./pages/auth/login";

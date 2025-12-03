@@ -42,7 +42,7 @@ function Homepage() {
       </div>
     );
   }
-
+//hola
   return (
     <div>
       <p className="text-gray-600 text-xl font-bold">

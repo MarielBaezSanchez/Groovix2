@@ -6,6 +6,7 @@ import EventCard from "./common/event-card";
 import { EventType } from "../../../interfaces";
 import Filters from "./common/filters";
 import Spinner from "../../../components/spinner";
+import { saveEventsCacheToLocalStorage } from "../../../hooks/useOnlineStatus";
 
 function Homepage() {
   const [events, setEvents] = useState<EventType[]>([]);
@@ -21,6 +22,8 @@ function Homepage() {
       setLoading(true);
       const response = await getEvents(filtersObj);
       setEvents(response.data);
+      // Cachear eventos para uso offline
+      saveEventsCacheToLocalStorage(response.data);
     } catch (error) {
       message.error("Error al obtener datos");
     } finally {

@@ -6,7 +6,7 @@ function ReportCard({
 }: {
   title: string;
   description: string;
-  value: string;
+  value: string | number | undefined;
   isAmountProperty: boolean;
 }) {
   return (

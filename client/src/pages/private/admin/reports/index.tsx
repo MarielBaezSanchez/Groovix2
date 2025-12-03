@@ -5,6 +5,7 @@ import { Table, message } from "antd";
 import { getEvents } from "../../../../api-services/events-service";
 import { getAdminReports } from "../../../../api-services/reports-service";
 import ReportCard from "./report-card";
+import { saveReportsCacheToLocalStorage } from "../../../../hooks/useOnlineStatus";
 
 function AdminReports() {
   const [reports, setReports] = useState<any>({});
@@ -20,6 +21,8 @@ function AdminReports() {
       const payload = filtersArg || filters;
       const response = await getAdminReports(payload);
       setReports(response.data);
+      // Cachear reportes para uso offline
+      saveReportsCacheToLocalStorage(response.data);
     } catch (error: any) {
       message.error(error.message);
     }

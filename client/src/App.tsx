@@ -4,6 +4,7 @@ import ThemeProvider from "./theme";
 import LoginPage from "./pages/auth/login";
 import RegisterPage from "./pages/auth/register";
 import Homepage from "./pages/private/home";
+import HomeOfflineView from "./pages/private/home/offline-view";
 import ProfilePage from "./pages/private/profile";
 import PublicLayout from "./layouts/public-layout";
 import PrivateLayout from "./layouts/private-layout";
@@ -15,26 +16,17 @@ import UserBookingsPage from "./pages/private/profile/bookings";
 import AdminBookingsPage from "./pages/private/admin/bookings";
 import UsersPage from "./pages/private/admin/users";
 import AdminReports from "./pages/private/admin/reports";
+import AdminReportsOfflineView from "./pages/private/admin/reports/offline-view";
 import UserReports from "./pages/private/profile/reports/page";
 import OfflinePage from "./pages/offline";
+import { useOnlineStatus } from "./hooks/useOnlineStatus";
 
 function App() {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const isOnline = useOnlineStatus();
+  const [token] = useState(localStorage.getItem("token"));
 
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, []);
-
-  if (!isOnline) {
+  // Si no hay conexión y no hay token, mostrar página offline simple
+  if (!isOnline && !token) {
     return <OfflinePage />;
   }
   return (
@@ -61,7 +53,7 @@ function App() {
             path="/"
             element={
               <PrivateLayout>
-                <Homepage />
+                {!isOnline ? <HomeOfflineView /> : <Homepage />}
               </PrivateLayout>
             }
           />
@@ -150,7 +142,7 @@ function App() {
             path="/admin/reports"
             element={
               <PrivateLayout>
-                <AdminReports />
+                {!isOnline ? <AdminReportsOfflineView /> : <AdminReports />}
               </PrivateLayout>
             }
           />

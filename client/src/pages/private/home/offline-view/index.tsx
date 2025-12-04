@@ -12,7 +12,7 @@ interface OfflineEvent {
   image?: string;
   location: string;
 }
-
+//holis
 function HomeOfflineView() {
   const [events, setEvents] = useState<OfflineEvent[]>([]);
 

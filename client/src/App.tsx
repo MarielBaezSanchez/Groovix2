@@ -31,7 +31,7 @@ function App() {
   const isOnline = useOnlineStatus();
   const [token] = useState(localStorage.getItem("token"));
 
-  // ❌ Sin internet y NO hay token → no mostrar nada privado
+  // sin internet y NO hay token → no mostrar nada privado
   if (!isOnline && !token) {
     return <OfflinePage />;
   }

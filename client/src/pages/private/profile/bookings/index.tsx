@@ -7,18 +7,37 @@ import {
   getUserBookings,
 } from "../../../../api-services/booking-service";
 import { getDateTimeFormat } from "../../../../helpers/date-time-formats";
+import { useNavigate } from "react-router-dom";
 
 function UserBookingsPage() {
   const [bookings, setBookings] = useState<BookingType[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // 🔥 Si entra sin internet → manda a offline
+  useEffect(() => {
+    if (!navigator.onLine) {
+      navigate("/offline");
+    }
+  }, [navigate]);
 
   const getData = async () => {
     try {
       setLoading(true);
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+        return;
+      }
+
       const response = await getUserBookings();
       setBookings(response.data);
     } catch (error: any) {
       message.error(error.message);
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+      }
     } finally {
       setLoading(false);
     }
@@ -28,19 +47,24 @@ function UserBookingsPage() {
     getData();
   }, []);
 
-  // Mapa de traducción de estados
+  // 🔥 Traducción de estados
   const statusMap: Record<string, string> = {
     pending: "Pendiente",
     confirmed: "Confirmado",
     cancelled: "Cancelado",
     completed: "Completado",
     booked: "Reservado",
-    // agrega otros estados si los tienes
   };
 
   const onCanceBooking = async (booking: BookingType) => {
     try {
       setLoading(true);
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+        return;
+      }
+
       const payload = {
         eventId: booking.event._id,
         ticketTypeName: booking.ticketType,
@@ -53,7 +77,11 @@ function UserBookingsPage() {
       message.success("Reserva cancelada exitosamente");
       getData();
     } catch (error: any) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.response?.data?.message || error.message);
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+      }
     } finally {
       setLoading(false);
     }
@@ -113,7 +141,7 @@ function UserBookingsPage() {
               onConfirm={() => onCanceBooking(record)}
               okText="Sí"
               cancelText="No"
-              placement='leftBottom'
+              placement="leftBottom"
             >
               <span className="text-gray-600 cursor-pointer text-sm underline">
                 Cancelar

@@ -14,16 +14,36 @@ function EventsPage() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // ⛔ Si no hay internet, redirige a offline inmediatamente
+  useEffect(() => {
+    if (!navigator.onLine) {
+      navigate("/offline");
+    }
+  }, [navigate]);
+
   const getData = async () => {
     try {
       setLoading(true);
+
+      // Si pierde conexión antes de pedir datos
+      if (!navigator.onLine) {
+        navigate("/offline");
+        return;
+      }
+
       const response = await getEvents({
         searchText: "",
         date: "",
       });
+
       setEvents(response.data);
-    } catch (error) {
+    } catch (error: any) {
       message.error("Error al cargar los eventos");
+
+      // Si el error es por estar offline
+      if (!navigator.onLine) {
+        navigate("/offline");
+      }
     } finally {
       setLoading(false);
     }
@@ -32,11 +52,21 @@ function EventsPage() {
   const deleteEventHandler = async (id: string) => {
     try {
       setLoading(true);
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+        return;
+      }
+
       await deleteEvent(id);
       getData();
       message.success("Evento eliminado exitosamente");
     } catch (error) {
       message.error("Error al eliminar evento");
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+      }
     } finally {
       setLoading(false);
     }

@@ -1,11 +1,25 @@
 import PageTitle from "../../../components/page-title";
 import { getDateTimeFormat } from "../../../helpers/date-time-formats";
 import usersGlobalStore, { UsersStoreType } from "../../../store/users-store";
+import { useEffect, useState } from "react";
 
 function ProfilePage() {
   const { currentUser }: UsersStoreType = usersGlobalStore() as UsersStoreType;
+  const [cachedUser, setCachedUser] = useState<any>(null);
 
-  if (!currentUser) return null;
+  // Guardar en cache cada vez que haya usuario cargado desde el backend
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem("cachedUser", JSON.stringify(currentUser));
+      setCachedUser(currentUser);
+    } else {
+      const stored = localStorage.getItem("cachedUser");
+      if (stored) setCachedUser(JSON.parse(stored));
+    }
+  }, [currentUser]);
+
+  // Si no hay ninguno, no mostrar nada
+  if (!cachedUser) return null;
 
   const renderUserProperty = (label: string, value: any) => {
     return (
@@ -21,18 +35,18 @@ function ProfilePage() {
       <PageTitle title="Perfil" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-7">
-        {renderUserProperty("Id de Usuario", currentUser?._id)}
-        {renderUserProperty("Nombre", currentUser?.name)}
-        {renderUserProperty("Email", currentUser?.email)}
+        {renderUserProperty("Id de Usuario", cachedUser._id)}
+        {renderUserProperty("Nombre", cachedUser.name)}
+        {renderUserProperty("Email", cachedUser.email)}
         {renderUserProperty(
-          "Se  unió el",
-          getDateTimeFormat(currentUser.createdAt!)
+          "Se unió el",
+          getDateTimeFormat(cachedUser.createdAt)
         )}
         {renderUserProperty(
           "Estado",
-          currentUser?.isActive ? "Activo" : "Inactivo"
+          cachedUser.isActive ? "Activo" : "Inactivo"
         )}
-        {renderUserProperty("Rol", currentUser?.isAdmin ? "Admin" : "Usuario")}
+        {renderUserProperty("Rol", cachedUser.isAdmin ? "Admin" : "Usuario")}
       </div>
     </div>
   );

@@ -7,31 +7,58 @@ import {
 } from "../../../../api-services/users-service";
 import { getDateTimeFormat } from "../../../../helpers/date-time-formats";
 import PageTitle from "../../../../components/page-title";
+import { useNavigate } from "react-router-dom";
 
 function UsersPage() {
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // 🔥 Si entra sin internet → redirige de inmediato
+  useEffect(() => {
+    if (!navigator.onLine) {
+      navigate("/offline");
+    }
+  }, [navigate]);
 
   const getData = async () => {
     try {
       setLoading(true);
+
+      // Si pierde internet antes de la petición
+      if (!navigator.onLine) {
+        navigate("/offline");
+        return;
+      }
+
       const response = await getAllUsers();
       setUsers(response.data);
     } catch (error: any) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.response?.data?.message || error.message);
+
+      // Si el error fue por falta de internet
+      if (!navigator.onLine) navigate("/offline");
     } finally {
       setLoading(false);
     }
   };
 
-  const updateUser = (data: any) => {
+  const updateUser = async (data: any) => {
     try {
       setLoading(true);
-      updateUserData(data);
+
+      if (!navigator.onLine) {
+        navigate("/offline");
+        return;
+      }
+
+      await updateUserData(data);
       message.success("Usuario actualizado correctamente");
       getData();
     } catch (error: any) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.response?.data?.message || error.message);
+
+      if (!navigator.onLine) navigate("/offline");
     } finally {
       setLoading(false);
     }

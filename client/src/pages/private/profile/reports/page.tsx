@@ -3,14 +3,31 @@ import PageTitle from "../../../../components/page-title";
 import { message } from "antd";
 import { getUserReports } from "../../../../api-services/reports-service";
 import ReportCard from "../../admin/reports/report-card";
+import { getReportsCacheFromLocalStorage, saveReportsCacheToLocalStorage } from "../../../../hooks/useOnlineStatus";
 
 function UserReports() {
   const [reports, setReports] = useState<any>({});
 
   const getData = async () => {
+    const isOnline = navigator.onLine;
+
+    // --- 📌 SI NO HAY INTERNET → USAR CACHE ---
+    if (!isOnline) {
+      const cached = getReportsCacheFromLocalStorage();
+      if (!cached || Object.keys(cached).length === 0) {
+        message.warning("Sin conexión y no hay reportes guardados.");
+      }
+      setReports(cached);
+      return;
+    }
+
+    // --- 📡 SI HAY INTERNET → OBTENER DE API ---
     try {
       const response = await getUserReports();
       setReports(response.data);
+
+      // guardar cache offline
+      saveReportsCacheToLocalStorage(response.data);
     } catch (error: any) {
       message.error(error.message);
     }
@@ -24,7 +41,6 @@ function UserReports() {
     <div>
       <PageTitle title="Reportes" />
 
-      
       <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <ReportCard
           title="Total de reservas"

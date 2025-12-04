@@ -1,24 +1,29 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// @ts-ignore
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ThemeProvider from "./theme";
+
 import LoginPage from "./pages/auth/login";
 import RegisterPage from "./pages/auth/register";
+
 import Homepage from "./pages/private/home";
-import HomeOfflineView from "./pages/private/home/offline-view";
 import ProfilePage from "./pages/private/profile";
+
 import PublicLayout from "./layouts/public-layout";
 import PrivateLayout from "./layouts/private-layout";
+
 import EventsPage from "./pages/private/admin/events";
 import CreateEvenetPage from "./pages/private/admin/events/create";
 import EditEventPage from "./pages/private/admin/events/edit";
+
 import EventInfoPage from "./pages/private/event";
+
 import UserBookingsPage from "./pages/private/profile/bookings";
 import AdminBookingsPage from "./pages/private/admin/bookings";
+
 import UsersPage from "./pages/private/admin/users";
 import AdminReports from "./pages/private/admin/reports";
-import AdminReportsOfflineView from "./pages/private/admin/reports/offline-view";
 import UserReports from "./pages/private/profile/reports/page";
+
 import OfflinePage from "./pages/offline";
 import { useOnlineStatus } from "./hooks/useOnlineStatus";
 
@@ -26,14 +31,17 @@ function App() {
   const isOnline = useOnlineStatus();
   const [token] = useState(localStorage.getItem("token"));
 
-  // Si no hay conexión y no hay token, mostrar página offline simple
+  // ❌ Sin internet y NO hay token → no mostrar nada privado
   if (!isOnline && !token) {
     return <OfflinePage />;
   }
+
   return (
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
+
+          {/* ---------- PUBLIC ROUTES ---------- */}
           <Route
             path="/login"
             element={
@@ -42,6 +50,7 @@ function App() {
               </PublicLayout>
             }
           />
+
           <Route
             path="/register"
             element={
@@ -50,23 +59,24 @@ function App() {
               </PublicLayout>
             }
           />
+
+          {/* ---------- PRIVATE ROUTES ---------- */}
+
+          {/* Home */}
           <Route
             path="/"
             element={
-              <PrivateLayout>
-                {!isOnline ? <HomeOfflineView /> : <Homepage />}
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <Homepage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
-          <Route
-            path="/event/:id"
-            element={
-              <PrivateLayout>
-                <EventInfoPage />
-              </PrivateLayout>
-            }
-          />
+          {/* Perfil (USA CACHÉ → se permite offline) */}
           <Route
             path="/profile"
             element={
@@ -76,77 +86,132 @@ function App() {
             }
           />
 
+          {/* Bookings usuario → necesita backend */}
           <Route
             path="/profile/bookings"
             element={
-              <PrivateLayout>
-                <UserBookingsPage />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <UserBookingsPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
+          {/* Reportes usuario → necesita backend */}
           <Route
             path="/profile/reports"
             element={
-              <PrivateLayout>
-                <UserReports />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <UserReports />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
+
+          {/* Evento → necesita backend */}
+          <Route
+            path="/event/:id"
+            element={
+              isOnline ? (
+                <PrivateLayout>
+                  <EventInfoPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
+            }
+          />
+
+          {/* ---------- ADMIN ---------- */}
 
           <Route
             path="/admin/events"
             element={
-              <PrivateLayout>
-                <EventsPage />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <EventsPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
           <Route
             path="/admin/events/create"
             element={
-              <PrivateLayout>
-                <CreateEvenetPage />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <CreateEvenetPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
           <Route
             path="/admin/events/edit/:id"
             element={
-              <PrivateLayout>
-                <EditEventPage />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <EditEventPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
           <Route
             path="/admin/bookings"
             element={
-              <PrivateLayout>
-                <AdminBookingsPage />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <AdminBookingsPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
           <Route
             path="/admin/users"
             element={
-              <PrivateLayout>
-                <UsersPage />
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <UsersPage />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
 
+          {/* Reportes admin → también requiere backend */}
           <Route
             path="/admin/reports"
             element={
-              <PrivateLayout>
-                {!isOnline ? <AdminReportsOfflineView /> : <AdminReports />}
-              </PrivateLayout>
+              isOnline ? (
+                <PrivateLayout>
+                  <AdminReports />
+                </PrivateLayout>
+              ) : (
+                <OfflinePage />
+              )
             }
           />
+
+          {/* Fallback */}
+          <Route path="*" element={<OfflinePage />} />
+
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

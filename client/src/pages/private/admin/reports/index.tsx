@@ -5,7 +5,10 @@ import { Table, message } from "antd";
 import { getEvents } from "../../../../api-services/events-service";
 import { getAdminReports } from "../../../../api-services/reports-service";
 import ReportCard from "./report-card";
-import { saveReportsCacheToLocalStorage } from "../../../../hooks/useOnlineStatus";
+import { 
+  saveReportsCacheToLocalStorage,
+  getReportsCacheFromLocalStorage,
+} from "../../../../hooks/useOnlineStatus";
 
 function AdminReports() {
   const [reports, setReports] = useState<any>({});
@@ -16,19 +19,39 @@ function AdminReports() {
     eventId: "",
   });
 
+  // ======================================================
+  // 1. Obtener reportes (online + offline)
+  // ======================================================
   const getReports = async (filtersArg?: any) => {
+    const payload = filtersArg || filters;
+
+    // 🟦 OFFLINE → cargar desde cache
+    if (!navigator.onLine) {
+      const cached = getReportsCacheFromLocalStorage();
+      setReports(cached);
+      return;
+    }
+
+    // 🟩 ONLINE → API real
     try {
-      const payload = filtersArg || filters;
       const response = await getAdminReports(payload);
       setReports(response.data);
-      // Cachear reportes para uso offline
+
+      // Guardar en cache para offline
       saveReportsCacheToLocalStorage(response.data);
+      
     } catch (error: any) {
       message.error(error.message);
     }
   };
 
+  // ======================================================
+  // 2. Obtener eventos (online + offline parcial)
+  // ======================================================
   const getEventsData = async () => {
+    // Si estás offline, simplemente no listamos eventos
+    if (!navigator.onLine) return;
+
     try {
       const response = await getEvents({ searchText: "", date: "" });
       setEvents(response.data);
@@ -37,16 +60,29 @@ function AdminReports() {
     }
   };
 
+  // ======================================================
+  // Ejecutar al cargar
+  // ======================================================
   useEffect(() => {
     getEventsData();
   }, []);
 
   useEffect(() => {
-    if (events.length > 0) {
-      getReports();
+    // Cargar reportes solo cuando tengamos los eventos (online)
+    if (navigator.onLine) {
+      if (events.length > 0) {
+        getReports();
+      }
+    } else {
+      // Si estamos offline, cargar reportes desde cache de inmediato
+      const cached = getReportsCacheFromLocalStorage();
+      setReports(cached);
     }
   }, [events]);
 
+  // ======================================================
+  // Columnas de tabla
+  // ======================================================
   const ticketTypesColumns = [
     {
       title: "Tipo de boleto",
@@ -68,6 +104,7 @@ function AdminReports() {
   return (
     <div>
       <PageTitle title="Reportes" />
+
       <AdminReportsFilters
         events={events}
         filters={filters}

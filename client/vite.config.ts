@@ -48,6 +48,7 @@ export default defineConfig({
       // SERVICE WORKER / CACHE OFFLINE
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        importScripts: ["sw-extra.js"], 
 
         runtimeCaching: [
           // Cache de PÁGINAS → permite usar la app sin internet

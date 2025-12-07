@@ -3,8 +3,11 @@ import PageTitle from "../../../../components/page-title";
 import { message } from "antd";
 import { getUserReports } from "../../../../api-services/reports-service";
 import ReportCard from "../../admin/reports/report-card";
+import { useOfflineRedirect } from "../../../../helpers/useOfflineRedirect";
 
 function UserReports() {
+  useOfflineRedirect(); 
+
   const [reports, setReports] = useState<any>({});
 
   const getData = async () => {
@@ -24,7 +27,6 @@ function UserReports() {
     <div>
       <PageTitle title="Reportes" />
 
-      
       <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <ReportCard
           title="Total de reservas"

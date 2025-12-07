@@ -11,6 +11,7 @@ import { getDateTimeFormat } from "../../../../helpers/date-time-formats";
 function UserBookingsPage() {
   const [bookings, setBookings] = useState<BookingType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const getData = async () => {
     try {
@@ -26,6 +27,18 @@ function UserBookingsPage() {
 
   useEffect(() => {
     getData();
+
+    // Detectar cambios de conexión
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
   }, []);
 
   // Mapa de traducción de estados
@@ -35,7 +48,6 @@ function UserBookingsPage() {
     cancelled: "Cancelado",
     completed: "Completado",
     booked: "Reservado",
-    // agrega otros estados si los tienes
   };
 
   const onCanceBooking = async (booking: BookingType) => {
@@ -107,13 +119,23 @@ function UserBookingsPage() {
       key: "action",
       render: (record: BookingType) => {
         if (record.status === "booked") {
+          if (!isOnline) {
+            // 🔥 Mostrar "Sin conexión" cuando esté offline
+            return (
+              <span className="text-gray-400 text-sm cursor-not-allowed">
+                Sin conexión
+              </span>
+            );
+          }
+
+          // 🔥 Online: mostrar Cancelar
           return (
             <Popconfirm
               title="¿Estás seguro de que deseas cancelar esta reserva?"
               onConfirm={() => onCanceBooking(record)}
               okText="Sí"
               cancelText="No"
-              placement='leftBottom'
+              placement="leftBottom"
             >
               <span className="text-gray-600 cursor-pointer text-sm underline">
                 Cancelar

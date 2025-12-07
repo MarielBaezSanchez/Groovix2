@@ -15,6 +15,7 @@ import AdminBookingsPage from "./pages/private/admin/bookings";
 import UsersPage from "./pages/private/admin/users";
 import AdminReports from "./pages/private/admin/reports";
 import UserReports from "./pages/private/profile/reports/page";
+import OfflinePage from "./pages/offline";
 
 function App() {
   return (
@@ -125,6 +126,7 @@ function App() {
               </PrivateLayout>
             }
           />
+          <Route path="/offline" element={<OfflinePage />} />
 
           <Route
             path="/admin/reports"

@@ -6,15 +6,18 @@
     <!-- Favicon general -->
     <link rel="icon" type="image/png" href="/icon/icon-512x512.png" />
 
-    <!-- Icono para iOS (Safari solo NECESITA este) -->
+    <!-- Icono para iOS -->
     <link rel="apple-touch-icon" href="/icon/icon-512x512.png">
 
-    <!-- Habilitar modo standalone PWA en Safari -->
+    <!-- Activar modo standalone en iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-    <!-- Color barra superior -->
+    <!-- Color de la barra -->
     <meta name="theme-color" content="#ffffff">
+
+    <!-- AÑADIR MANIFEST (manual, sin plugin) -->
+    <link rel="manifest" href="/manifest.webmanifest">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Groovix</title>
@@ -23,5 +26,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Registrar EL service worker manual -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js")
+          .catch(err => console.error("SW failed:", err));
+      }
+    </script>
   </body>
 </html>

@@ -27,7 +27,7 @@ function OfflinePage() {
 
                 {/* Mensaje principal */}
                 <p className="text-lg text-blue-100 mb-2">
-                    Por seguridad no puedes acceder a Groovix.
+                    No puedes acceder a Groovix.
                 </p>
 
                 {/* Submensaje */}

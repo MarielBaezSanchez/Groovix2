@@ -5,8 +5,11 @@ import { Table, message } from "antd";
 import { getEvents } from "../../../../api-services/events-service";
 import { getAdminReports } from "../../../../api-services/reports-service";
 import ReportCard from "./report-card";
+import { useOfflineRedirect } from "../../../../helpers/useOfflineRedirect";
 
 function AdminReports() {
+  useOfflineRedirect(); 
+
   const [reports, setReports] = useState<any>({});
   const [events, setEvents] = useState([]);
   const [filters, setFilters] = useState({

@@ -1,9 +1,22 @@
+import { useNavigate } from "react-router-dom";
+
 function OfflinePage() {
+    const navigate = useNavigate();
+
+    const handleRetry = () => {
+        // Revisa si ya hay conexión
+        if (navigator.onLine) {
+            navigate("/", { replace: true });
+        } else {
+            // Si sigue sin conexión, recarga para volver a verificar
+            window.location.reload();
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center px-4">
             <div className="text-center max-w-md">
 
-                {/* Icono de WiFi desconectado */}
                 <div className="mb-8">
                     <svg
                         className="w-24 h-24 mx-auto text-white opacity-80 animate-pulse"
@@ -20,43 +33,28 @@ function OfflinePage() {
                     </svg>
                 </div>
 
-                {/* Título */}
-                <h1 className="text-4xl font-bold text-white mb-4">
-                    Sin conexión
-                </h1>
+                <h1 className="text-4xl font-bold text-white mb-4">Sin conexión</h1>
 
-                {/* Mensaje principal */}
-                <p className="text-lg text-blue-100 mb-2">
-                    No puedes acceder a Groovix.
-                </p>
+                <p className="text-lg text-blue-100 mb-2">No puedes acceder a Groovix.</p>
+                <p className="text-base text-blue-200 mb-8">Por favor, conéctate a alguna red</p>
 
-                {/* Submensaje */}
-                <p className="text-base text-blue-200 mb-8">
-                    Por favor, conéctate a alguna red
-                </p>
-
-                {/* Descripción */}
                 <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-6 mb-8 border border-white border-opacity-20">
                     <p className="text-sm text-blue-100">
                         Parece que tu conexión a internet se ha interrumpido.
-                        Una vez que te reconectes, podrás acceder a todas las
-                        funcionalidades de Groovix.
+                        Una vez que te reconectes, podrás acceder a todas las funcionalidades de Groovix.
                     </p>
                 </div>
 
-                {/* Botón de reintentar */}
                 <button
-                    onClick={() => window.location.reload()}
+                    onClick={handleRetry}
                     className="bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-blue-50 transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
                     Reintentar
                 </button>
 
-                {/* Branding */}
                 <div className="mt-12">
                     <p className="text-blue-200 text-sm">✨ Groovix</p>
                 </div>
-
             </div>
         </div>
     );

@@ -7,8 +7,11 @@ import {
 } from "../../../../api-services/users-service";
 import { getDateTimeFormat } from "../../../../helpers/date-time-formats";
 import PageTitle from "../../../../components/page-title";
+import { useOfflineRedirect } from "../../../../helpers/useOfflineRedirect";
 
 function UsersPage() {
+  useOfflineRedirect(); // ⬅️ Redirección automática al estar offline
+
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -18,20 +21,20 @@ function UsersPage() {
       const response = await getAllUsers();
       setUsers(response.data);
     } catch (error: any) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const updateUser = (data: any) => {
+  const updateUser = async (data: any) => {
     try {
       setLoading(true);
-      updateUserData(data);
+      await updateUserData(data);
       message.success("Usuario actualizado correctamente");
       getData();
     } catch (error: any) {
-      message.error(error.response.data.message || error.message);
+      message.error(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }

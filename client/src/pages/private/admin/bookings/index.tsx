@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import PageTitle from "../../../../components/page-title";
 import { BookingType } from "../../../../interfaces";
-import { Table, message, Alert } from "antd";
+import { Table, message } from "antd";
 import { getAllBookings } from "../../../../api-services/booking-service";
 import { getDateTimeFormat } from "../../../../helpers/date-time-formats";
-
+import { useOfflineRedirect } from "../../../../helpers/useOfflineRedirect";
 function AdminBookingsPage() {
+  useOfflineRedirect();
+
   const [bookings, setBookings] = useState<BookingType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
   const getData = async () => {
-    if (!navigator.onLine) {
-      setIsOffline(true);
-      message.error("Sin conexión a internet. No se pueden cargar las reservas.");
-      return;
-    }
-
     try {
       setLoading(true);
+
       const response = await getAllBookings();
       setBookings(response.data);
+
     } catch (error: any) {
       message.error(error.message);
     } finally {
@@ -30,25 +27,6 @@ function AdminBookingsPage() {
 
   useEffect(() => {
     getData();
-
-    const handleOnline = () => {
-      setIsOffline(false);
-      message.success("Conexión restaurada");
-      getData();
-    };
-
-    const handleOffline = () => {
-      setIsOffline(true);
-      message.error("Sin conexión a internet");
-    };
-
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
   }, []);
 
   const statusMap: Record<string, string> = {
@@ -107,6 +85,7 @@ function AdminBookingsPage() {
       render: (status: string) => {
         const translated =
           statusMap[status?.toLowerCase()] || status || "Desconocido";
+
         return (
           translated.charAt(0).toUpperCase() +
           translated.slice(1).toLowerCase()
@@ -118,16 +97,6 @@ function AdminBookingsPage() {
   return (
     <div>
       <PageTitle title="Reservas" />
-
-      {isOffline && (
-        <Alert
-          message="Estás sin conexión"
-          description="Los datos no se pueden actualizar mientras estés offline."
-          type="warning"
-          showIcon
-          style={{ marginBottom: 15 }}
-        />
-      )}
 
       <Table
         dataSource={bookings}

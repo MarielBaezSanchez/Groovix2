@@ -4,9 +4,12 @@ import { MapPin, Timer } from "lucide-react";
 import { getDateTimeFormat } from "../../../../helpers/date-time-formats";
 import { useNavigate } from "react-router-dom";
 
+
 function EventCard({ event }: { event: EventType }) {
   const mainImage = event.media[0];
   const navigate = useNavigate();
+  const isOnline = navigator.onLine;
+
   return (
     <div className="grid lg:grid-cols-3 grid-cols-1 border border-solid border-gray-200 items-center gap-5">
       <div className="col-span-1">
@@ -38,12 +41,17 @@ function EventCard({ event }: { event: EventType }) {
               </p>
             </div>
           </div>
-          <Button
-            type="primary"
-            onClick={() => navigate(`/event/${event._id}`)}
-          >
-            Ver detalles
-          </Button>
+
+          {/* 👇 AQUI CAMBIAMOS EL BOTÓN */}
+          {isOnline ? (
+            <Button type="primary" onClick={() => navigate(`/event/${event._id}`)}>
+              Ver detalles
+            </Button>
+          ) : (
+            <div className="text-red-500 font-semibold text-sm">
+              No disponible sin conexión
+            </div>
+          )}
         </div>
       </div>
     </div>

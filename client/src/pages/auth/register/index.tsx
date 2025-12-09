@@ -38,12 +38,12 @@ function RegisterPage() {
           <Form.Item
             name="name"
             required
-            label="Name"
+            label="Nombre"
             //rules={[{ required: true }]}
             rules={[{ required: true, message: "Por favor ingresa tu nombre" }]}
 
           >
-            <Input placeholder="Name" />
+            <Input placeholder="Nombre" />
           </Form.Item>
 
           <Form.Item
@@ -64,7 +64,7 @@ function RegisterPage() {
             //rules={[{ required: true }]}
             rules={[{ required: true, message: "Por favor ingresa tu contraseña" }]}
           >
-            <Input.Password placeholder="password" />
+            <Input.Password placeholder="contraseña" />
           </Form.Item>
 
           <Button type="primary" htmlType="submit" block loading={loading}>

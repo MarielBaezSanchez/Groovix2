@@ -89,7 +89,7 @@ function TicketsSelection({ eventData }: { eventData: EventType }) {
 
           <span className="text-gray-600 text-sm mt-2 font-bold">
             {selectedTicketsCount > maxCount
-              ? `Solo hay ${maxCount} boletos disponibles`
+              ? `Solo hay ${maxCount} boleto(s) disponible(s)`
               : ""}
           </span>
         </div>

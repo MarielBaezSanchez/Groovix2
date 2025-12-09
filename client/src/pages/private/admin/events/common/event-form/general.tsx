@@ -64,7 +64,7 @@ function General({
             onChange={(e) => setGuestInputValue(e.target.value)}
           />
           <Button onClick={onGuestAdd} disabled={!guestInputValue}>
-            Add
+            Agregar
           </Button>
         </div>
       </Form.Item>
@@ -83,7 +83,7 @@ function General({
             navigate("/admin/events");
           }}
         >
-          Back
+          Regresar
         </Button>
         <Button
           type="primary"

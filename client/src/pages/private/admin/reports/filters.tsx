@@ -50,13 +50,6 @@ function AdminReportsFilters({
         />
       </Form.Item>
 
-      <Form.Item label="Fecha de finalización">
-        <Input
-          type="date"
-          value={filters.endDate}
-          onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
-        />
-      </Form.Item>
 
       <div className="flex gap-5">
         <Button

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Select } from "antd";
 
 function AdminReportsFilters({
   filters,
@@ -38,16 +38,6 @@ function AdminReportsFilters({
             </Select.Option>
           ))}
         </Select>
-      </Form.Item>
-
-      <Form.Item label="Fecha de incio">
-        <Input
-          type="date"
-          value={filters.startDate}
-          onChange={(e) =>
-            setFilters({ ...filters, startDate: e.target.value })
-          }
-        />
       </Form.Item>
 
 
